@@ -1,9 +1,13 @@
 package com.dhiego.mercadolivro.controllers
 
-import com.dhiego.mercadolivro.controllers.dtos.CreateCustomerRequest
-import com.dhiego.mercadolivro.controllers.dtos.UpdateCustomerRequest
-import com.dhiego.mercadolivro.models.Customer
+import com.dhiego.mercadolivro.controllers.request.CreateCustomerRequest
+import com.dhiego.mercadolivro.controllers.request.UpdateCustomerRequest
+import com.dhiego.mercadolivro.controllers.response.CustomerResponse
+import com.dhiego.mercadolivro.extesions.toResponse
 import com.dhiego.mercadolivro.services.CustomerService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -12,27 +16,26 @@ import org.springframework.web.bind.annotation.*
 class CustomerController(
     val customerService: CustomerService
 ) {
-
     @GetMapping
-    fun getAll(@RequestParam name: String?): List<Customer> {
-        return customerService.getAll(name)
-    }
+    fun findAll(@PageableDefault(page = 0, size = 10) pageable : Pageable, @RequestParam name: String?):
+            Page<CustomerResponse> =
+        customerService.findAll(pageable, name).map {it.toResponse()}
+
+    @GetMapping("/{id}")
+    fun findById(@PathVariable id: Int): CustomerResponse =
+        customerService.findById(id).toResponse()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody customer: CreateCustomerRequest) {
-        customerService.create(customer.toCustomer())
-    }
-
-    @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: Int): Customer {
-        return customerService.getCustomer(id)
+    fun create(@RequestBody request: CreateCustomerRequest) {
+        customerService.create(request.toModel())
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun update(@PathVariable id: Int, @RequestBody customer: UpdateCustomerRequest) {
-        customerService.update(customer.toCustomer(id))
+    fun update(@PathVariable id: Int, @RequestBody request: UpdateCustomerRequest) {
+        val customer = customerService.findById(id)
+        customerService.update(request.toModel(customer))
     }
 
     @DeleteMapping("/{id}")

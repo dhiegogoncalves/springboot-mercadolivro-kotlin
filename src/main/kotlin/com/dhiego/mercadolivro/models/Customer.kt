@@ -1,14 +1,10 @@
 package com.dhiego.mercadolivro.models
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import com.dhiego.mercadolivro.enums.CustomerStatus
+import javax.persistence.*
 
 @Entity(name = "customer")
 data class Customer (
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
@@ -18,4 +14,8 @@ data class Customer (
 
     @Column(unique = true)
     var email: String,
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    var status: CustomerStatus? = null,
 )
