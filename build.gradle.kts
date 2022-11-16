@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    kotlin("plugin.jpa") version "1.6.21"
 }
 
 group = "com.dhiego.mercadolivro"
@@ -20,6 +21,12 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.flywaydb:flyway-core:9.8.1")
+    implementation("org.flywaydb:flyway-mysql:9.8.1")
+
+    runtimeOnly("mysql:mysql-connector-java")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

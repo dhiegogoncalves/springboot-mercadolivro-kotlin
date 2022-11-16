@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/mercadolivro?createDatabaseIfNotExists=true
+    username: root
+    password: d39olmdfg2asdhlmt234
