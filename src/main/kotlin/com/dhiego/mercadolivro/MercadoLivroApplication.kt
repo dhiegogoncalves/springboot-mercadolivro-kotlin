@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MercadolivroApplication
+class MercadoLivroApplication
 
 fun main(args: Array<String>) {
-    runApplication<MercadolivroApplication>(*args)
+    runApplication<MercadoLivroApplication>(*args)
 }
